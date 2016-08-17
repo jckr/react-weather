@@ -1,0 +1,55 @@
+
+body {
+	background: #d6d6d5;
+  color: #494949;
+  padding: 0;
+  margin: 0;
+  font-family: 'Futura', sans-serif;
+}
+
+h1 {
+	font-size: 16px;
+	line-height: 20px;
+}
+
+h2 {
+	font-size: 12px;
+	line-height: 15px;
+	font-style: italic;
+	font-weight: normal;
+}
+
+.rv-xy-plot {
+	position: relative;
+}
+
+line {
+	stroke: #d6d6d5 !important;
+}
+
+text {
+	font-family: 'Avenir', sans-serif;
+}
+
+.rv-xy-plot__axis__labels text {
+	fill: #939393 !important;
+}
+
+.bottom-row .rv-xy-plot__axis__labels text {
+	font-size: 9px !important;
+}
+
+.rv-xy-plot__axis--y path {
+	display: none;
+}
+
+
+.rv-xy-plot__axis--x path {
+	stroke: #939393 !important;
+	stroke-width: 1px;
+}
+
+
+.rv-xy-plot__series--line {
+	stroke-linejoin: round;
+}
