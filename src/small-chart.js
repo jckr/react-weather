@@ -20,9 +20,9 @@ export default class SmallChart extends Component {
     if (!series) {
       return <div />;
     }
-    const minValue = series.reduce((prev, curr) => Math.min(prev, curr.y), Infinity);
-    const maxValue = series.reduce((prev, curr) => Math.max(prev, curr.y), -Infinity);
-
+    const minValue = Math.min(...series.map(d => d.y));
+    const maxValue = Math.max(...series.map(d => d.y));
+    
     const yDomain = [0.98 * minValue, 1.02 * maxValue];
     const labelValues = makeLabelValues(series);
 

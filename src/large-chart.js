@@ -16,13 +16,11 @@ const DAY_IN_MS = 24 * HOUR_IN_MS;
 
 const FlexibleXYPlot = makeWidthFlexible(XYPlot);
 
-// import * as CONSTANTS from './constants.js'; 
-
 export default class LargeChart extends Component {
   render() {
   	const {highlighted, highlightX, series} = this.props;
-  	const minValue = series.reduce((prev, curr) => Math.min(prev, curr.y), Infinity);
-  	const maxValue = series.reduce((prev, curr) => Math.max(prev, curr.y), -Infinity);
+  	const minValue = Math.min(...series.map(d => d.y));
+  	const maxValue = Math.max(...series.map(d => d.y));
 
   	const yDomain = [0.98 * minValue, 1.02 * maxValue];
   	const tickValues = series.map(d => d.x);
@@ -60,7 +58,7 @@ export default class LargeChart extends Component {
     		stroke='#11939a'
     		strokeWidth={2}
     	/>
-    	{highlighted === undefined ? null : 
+    	{highlighted ? 
     		<LineSeries
     			data={[
     				{x: highlighted && highlighted.x, y: yDomain[0]},
@@ -68,16 +66,16 @@ export default class LargeChart extends Component {
     			]}
     			stroke='rgba(17,147,154,0.7)'
     			strokeWidth={2}
-    		/>
+    		/> : null
     	}
-      {highlighted === undefined ? null : 
+      {highlighted ?  
         <MarkSeries
           data={[{
             x: highlighted && highlighted.x,
             y: highlighted && series[highlighted.i].y
           }]}
           color='rgba(17,147,154,0.7)'
-        />
+        /> : null
       }
     	<XAxis 
     		tickSize={4}

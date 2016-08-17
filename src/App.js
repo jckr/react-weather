@@ -103,10 +103,10 @@ class App extends Component {
           }}
         >
           <SmallChart
-          highlighted={highlighted}
-          highlightX={this.highlightX}
-          series={data.Pressure}
-          title='Pressure'
+            highlighted={highlighted}
+            highlightX={this.highlightX}
+            series={data.Pressure}
+            title='Pressure'
           />
           <SmallChart
             highlighted={highlighted}
