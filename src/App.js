@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
 import '../node_modules/react-vis/main.css';
-import {json} from 'd3-request';
 import * as CONSTANTS from './constants';
 import secrets from './secrets.json';
 const {API} = secrets;
@@ -13,25 +12,24 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      highlighted: null
+      highlighted: null,
+      status: 'NO_DATA'
     };
     this.highlightX = this.highlightX.bind(this);
     this.processResults = this.processResults.bind(this);
+
+    fetch(`${CONSTANTS.QUERY_PREFIX}?id=${CONSTANTS.CITY_ID}&appid=${API}&units=imperial`)
+      .then(response => response.json())
+      .then(results => this.processResults(results))
+      .catch(error => this.setState({ error, status: 'ERROR' }));
   }
-  
-  componentWillMount() {
-    json(`${CONSTANTS.QUERY_PREFIX}?id=${CONSTANTS.CITY_ID}&appid=${API}&units=imperial`,
-      this.processResults);
-  }
-  
+    
   highlightX(highlighted) {
     this.setState({highlighted});
   }
   
-  processResults(error, queryResults) {
-    if (error) {
-      this.setState({error});
-    }
+  processResults(queryResults) {
+    console.log({queryResults});
     const data = CONSTANTS.KEYS.map(key => ({
       key,
       values: queryResults.list.map((d, i) => ({
@@ -48,16 +46,19 @@ class App extends Component {
         queryResults.city.name
       ) || 'Unkown'
     });
-    this.setState({data});
+    this.setState({data, status: 'READY'});
   }
 
   render() {
     const {data, error, highlighted} = this.state;
-    if (error) {
-      return <div>
+    if (status === 'NO_DATA') {
+      return null;
+    }
+    if (status === 'ERROR') {
+      return (<div>
         <div>Error loading weather information</div>
         <div>{JSON.stringify(this.state.error)}</div>
-      </div>;
+      </div>);
     }
     if (data) {
       return <div
